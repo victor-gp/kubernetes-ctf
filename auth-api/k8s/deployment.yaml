@@ -20,3 +20,33 @@ spec:
         - name: auth-api-port
           containerPort: 8081
           protocol: TCP
+        env:
+          - name: AUTH_API_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: auth-api
+                key: AUTH_API_PORT
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: auth-api
+                key: JWT_SECRET
+          - name: USERS_API_ADDRESS
+            valueFrom:
+              configMapKeyRef:
+                name: auth-api
+                key: USERS_API_ADDRESS
+        volumeMounts:
+        - name: config
+          mountPath: "/config"
+          readOnly: true
+        - name: secret
+          mountPath: "/etc/secret"
+          readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: auth-api
+        - name: secret
+          secret:
+            secretName: auth-api

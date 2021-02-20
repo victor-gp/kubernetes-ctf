@@ -20,3 +20,28 @@ spec:
         - name: users-api-port
           containerPort: 8083
           protocol: TCP
+        env:
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: users-api
+                key: JWT_SECRET
+          - name: SERVER_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: users-api
+                key: SERVER_PORT
+        volumeMounts:
+        - name: config
+          mountPath: "/config"
+          readOnly: true
+        - name: secret
+          mountPath: "/etc/secret"
+          readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: users-api
+        - name: secret
+          secret:
+            secretName: users-api
