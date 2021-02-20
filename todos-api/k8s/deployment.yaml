@@ -21,3 +21,43 @@ spec:
         - name: todos-api-port
           containerPort: 8082
           protocol: TCP
+        env:
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: todos-api
+                key: JWT_SECRET
+          - name: TODO_API_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: todos-api
+                key: TODO_API_PORT
+          - name: REDIS_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: todos-api
+                key: REDIS_HOST
+          - name: REDIS_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: todos-api
+                key: REDIS_PORT
+          - name: REDIS_CHANNEL
+            valueFrom:
+              configMapKeyRef:
+                name: todos-api
+                key: REDIS_CHANNEL
+        volumeMounts:
+        - name: config
+          mountPath: "/config"
+          readOnly: true
+        - name: secret
+          mountPath: "/etc/secret"
+          readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: todos-api
+        - name: secret
+          secret:
+            secretName: todos-api
