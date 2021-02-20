@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-queue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-queue
+  template:
+    metadata:
+      labels:
+        app: redis-queue
+    spec:
+      containers:
+      - name: redis-queue
+        image: redis:latest
+        ports:
+        - name: redis-port
+          containerPort: 6379
+          protocol: TCP
+      restartPolicy: Always
