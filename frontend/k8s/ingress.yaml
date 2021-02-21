@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: frontend
+  namespace: team43
 spec:
   ingressClassName: nginx
   rules:
