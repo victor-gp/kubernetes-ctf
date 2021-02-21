@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: team43
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: frontend
+        image: 561341012850.dkr.ecr.us-east-1.amazonaws.com/team43-frontend:latest
+        ports:
+        - name: frontend-port
+          containerPort: 8080
+          protocol: TCP
+        env:
+          - name: AUTH_API_ADDRESS
+            valueFrom:
+              configMapKeyRef:
+                name: frontend
+                key: AUTH_API_ADDRESS
+          - name: PORT
+            valueFrom:
+              configMapKeyRef:
+                name: frontend
+                key: PORT
+          - name: TODOS_API_ADDRESS
+            valueFrom:
+              configMapKeyRef:
+                name: frontend
+                key: TODOS_API_ADDRESS
+        volumeMounts:
+        - name: config
+          mountPath: "/config"
+          readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: frontend

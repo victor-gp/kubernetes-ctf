@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: users-api
+  namespace: team43
+data:
+  SERVER_PORT: "8083"

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-api
+  namespace: team43
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-api
+  template:
+    metadata:
+      labels:
+        app: users-api
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: users-api
+        image: 561341012850.dkr.ecr.us-east-1.amazonaws.com/team43-users-api:latest
+        ports:
+        - name: users-api-port
+          containerPort: 8083
+          protocol: TCP
+        env:
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: users-api
+                key: JWT_SECRET
+          - name: SERVER_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: users-api
+                key: SERVER_PORT
+        volumeMounts:
+        - name: config
+          mountPath: "/config"
+          readOnly: true
+        - name: secret
+          mountPath: "/etc/secret"
+          readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: users-api
+        - name: secret
+          secret:
+            secretName: users-api
