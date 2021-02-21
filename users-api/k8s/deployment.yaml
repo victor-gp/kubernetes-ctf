@@ -32,17 +32,3 @@ spec:
               configMapKeyRef:
                 name: users-api
                 key: SERVER_PORT
-        volumeMounts:
-        - name: config
-          mountPath: "/config"
-          readOnly: true
-        - name: secret
-          mountPath: "/etc/secret"
-          readOnly: true
-      volumes:
-        - name: config
-          configMap:
-            name: users-api
-        - name: secret
-          secret:
-            secretName: users-api

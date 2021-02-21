@@ -34,11 +34,3 @@ spec:
               configMapKeyRef:
                 name: log-message-processor
                 key: REDIS_CHANNEL
-        volumeMounts:
-        - name: config
-          mountPath: "/config"
-          readOnly: true
-      volumes:
-        - name: config
-          configMap:
-            name: log-message-processor

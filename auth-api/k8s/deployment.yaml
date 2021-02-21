@@ -37,17 +37,3 @@ spec:
               configMapKeyRef:
                 name: auth-api
                 key: USERS_API_ADDRESS
-        volumeMounts:
-        - name: config
-          mountPath: "/config"
-          readOnly: true
-        - name: secret
-          mountPath: "/etc/secret"
-          readOnly: true
-      volumes:
-        - name: config
-          configMap:
-            name: auth-api
-        - name: secret
-          secret:
-            secretName: auth-api

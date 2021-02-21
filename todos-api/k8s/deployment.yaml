@@ -48,17 +48,3 @@ spec:
               configMapKeyRef:
                 name: todos-api
                 key: REDIS_CHANNEL
-        volumeMounts:
-        - name: config
-          mountPath: "/config"
-          readOnly: true
-        - name: secret
-          mountPath: "/etc/secret"
-          readOnly: true
-      volumes:
-        - name: config
-          configMap:
-            name: todos-api
-        - name: secret
-          secret:
-            secretName: todos-api

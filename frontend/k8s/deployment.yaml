@@ -37,11 +37,3 @@ spec:
               configMapKeyRef:
                 name: frontend
                 key: TODOS_API_ADDRESS
-        volumeMounts:
-        - name: config
-          mountPath: "/config"
-          readOnly: true
-      volumes:
-        - name: config
-          configMap:
-            name: frontend
